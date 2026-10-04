@@ -1,0 +1,110 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: nidan_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-nidan_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-nidan_secure_password_2026}
+      POSTGRES_DB: ${POSTGRES_DB:-nidan_ai}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-nidan_user} -d ${POSTGRES_DB:-nidan_ai}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: nidan_redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: nidan_backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      ENVIRONMENT: production
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-nidan_user}:${POSTGRES_PASSWORD:-nidan_secure_password_2026}@postgres:5432/${POSTGRES_DB:-nidan_ai}
+      REDIS_URL: redis://redis:6379/0
+      SECRET_KEY: ${SECRET_KEY:-production_secret_key_medical_compliance_32char}
+      STORAGE_BACKEND: local
+      STORAGE_LOCAL_ROOT: /app/storage
+    volumes:
+      - app_storage:/app/storage
+    ports:
+      - "8000:8000"
+
+  worker:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: nidan_worker
+    restart: unless-stopped
+    command: ["python", "-m", "app.worker"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      ENVIRONMENT: production
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-nidan_user}:${POSTGRES_PASSWORD:-nidan_secure_password_2026}@postgres:5432/${POSTGRES_DB:-nidan_ai}
+      REDIS_URL: redis://redis:6379/0
+      SECRET_KEY: ${SECRET_KEY:-production_secret_key_medical_compliance_32char}
+      STORAGE_BACKEND: local
+      STORAGE_LOCAL_ROOT: /app/storage
+    volumes:
+      - app_storage:/app/storage
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    container_name: nidan_frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      NEXT_PUBLIC_API_URL: http://backend:8000
+    ports:
+      - "3000:3000"
+
+  nginx:
+    image: nginx:alpine
+    container_name: nidan_nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - backend
+      - frontend
+
+volumes:
+  pgdata:
+  redisdata:
+  app_storage:

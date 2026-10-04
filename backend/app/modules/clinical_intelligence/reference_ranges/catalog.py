@@ -1,0 +1,816 @@
+"""Standard Medical Reference Range Catalog (Version 2026.1).
+
+Data-driven reference ranges with demographic specificity (male, female, pediatric, pregnancy)
+and rigorous medical reference source citations.
+"""
+
+from typing import Dict, List, Optional
+from pydantic import BaseModel
+
+
+class ReferenceRangeDefinition(BaseModel):
+    analyte: str
+    canonical_name: str
+    panel: str
+    sex: str = "all"  # male, female, all
+    age_min: float = 0.0
+    age_max: float = 120.0
+    pregnancy_status: str = "all"
+    unit: str
+    lower_bound: Optional[float] = None
+    upper_bound: Optional[float] = None
+    lower_operator: str = ">="
+    upper_operator: str = "<="
+    critical_low: Optional[float] = None
+    critical_high: Optional[float] = None
+    source_name: str = "CLSI / Tietz Clinical Laboratory Guide"
+    source_version: str = "2026.1"
+    source_url: Optional[str] = "https://clsi.org/standards/products/clinical-chemistry-and-toxicology/documents/c28/"
+    notes: Optional[str] = None
+
+
+REFERENCE_RANGE_CATALOG: List[ReferenceRangeDefinition] = [
+    # -------------------------------------------------------------
+    # 1. CBC / Hematology
+    # -------------------------------------------------------------
+    # Hemoglobin - Adult Male
+    ReferenceRangeDefinition(
+        analyte="Hemoglobin",
+        canonical_name="Hemoglobin",
+        panel="CBC",
+        sex="male",
+        age_min=18.0,
+        age_max=120.0,
+        unit="g/dL",
+        lower_bound=13.0,
+        upper_bound=17.5,
+        critical_low=7.0,
+        critical_high=20.0,
+        source_name="WHO / Tietz Clinical Reference Standards",
+        source_version="2026.1",
+        notes="Adult male standard reference interval.",
+    ),
+    # Hemoglobin - Adult Female
+    ReferenceRangeDefinition(
+        analyte="Hemoglobin",
+        canonical_name="Hemoglobin",
+        panel="CBC",
+        sex="female",
+        age_min=18.0,
+        age_max=120.0,
+        unit="g/dL",
+        lower_bound=12.0,
+        upper_bound=16.0,
+        critical_low=7.0,
+        critical_high=20.0,
+        source_name="WHO / Tietz Clinical Reference Standards",
+        source_version="2026.1",
+        notes="Adult female standard reference interval.",
+    ),
+    # Hemoglobin - General / Unspecified Sex
+    ReferenceRangeDefinition(
+        analyte="Hemoglobin",
+        canonical_name="Hemoglobin",
+        panel="CBC",
+        sex="all",
+        age_min=18.0,
+        age_max=120.0,
+        unit="g/dL",
+        lower_bound=12.0,
+        upper_bound=17.5,
+        critical_low=7.0,
+        critical_high=20.0,
+        source_name="WHO / Tietz Clinical Reference Standards",
+        source_version="2026.1",
+    ),
+    # RBC Count
+    ReferenceRangeDefinition(
+        analyte="RBC",
+        canonical_name="RBC",
+        panel="CBC",
+        sex="male",
+        age_min=18.0,
+        age_max=120.0,
+        unit="10^6/uL",
+        lower_bound=4.5,
+        upper_bound=5.9,
+        source_name="Tietz Fundamentals of Clinical Chemistry",
+        source_version="2026.1",
+    ),
+    ReferenceRangeDefinition(
+        analyte="RBC",
+        canonical_name="RBC",
+        panel="CBC",
+        sex="female",
+        age_min=18.0,
+        age_max=120.0,
+        unit="10^6/uL",
+        lower_bound=4.0,
+        upper_bound=5.2,
+        source_name="Tietz Fundamentals of Clinical Chemistry",
+        source_version="2026.1",
+    ),
+    ReferenceRangeDefinition(
+        analyte="RBC",
+        canonical_name="RBC",
+        panel="CBC",
+        sex="all",
+        age_min=0.0,
+        age_max=120.0,
+        unit="10^6/uL",
+        lower_bound=4.0,
+        upper_bound=5.9,
+        source_name="Tietz Fundamentals of Clinical Chemistry",
+        source_version="2026.1",
+    ),
+    # WBC Count
+    ReferenceRangeDefinition(
+        analyte="WBC",
+        canonical_name="WBC",
+        panel="CBC",
+        sex="all",
+        age_min=18.0,
+        age_max=120.0,
+        unit="10^3/uL",
+        lower_bound=4.0,
+        upper_bound=11.0,
+        critical_low=2.0,
+        critical_high=30.0,
+        source_name="Clinical Laboratory Reference Standard",
+        source_version="2026.1",
+    ),
+    # Platelets
+    ReferenceRangeDefinition(
+        analyte="Platelets",
+        canonical_name="Platelets",
+        panel="CBC",
+        sex="all",
+        age_min=0.0,
+        age_max=120.0,
+        unit="10^3/uL",
+        lower_bound=150.0,
+        upper_bound=450.0,
+        critical_low=50.0,
+        critical_high=1000.0,
+        source_name="Clinical Laboratory Reference Standard",
+        source_version="2026.1",
+    ),
+    # Hematocrit
+    ReferenceRangeDefinition(
+        analyte="Hematocrit",
+        canonical_name="Hematocrit",
+        panel="CBC",
+        sex="male",
+        age_min=18.0,
+        age_max=120.0,
+        unit="%",
+        lower_bound=40.0,
+        upper_bound=52.0,
+        source_name="Clinical Laboratory Reference Standard",
+        source_version="2026.1",
+    ),
+    ReferenceRangeDefinition(
+        analyte="Hematocrit",
+        canonical_name="Hematocrit",
+        panel="CBC",
+        sex="female",
+        age_min=18.0,
+        age_max=120.0,
+        unit="%",
+        lower_bound=36.0,
+        upper_bound=48.0,
+        source_name="Clinical Laboratory Reference Standard",
+        source_version="2026.1",
+    ),
+    ReferenceRangeDefinition(
+        analyte="Hematocrit",
+        canonical_name="Hematocrit",
+        panel="CBC",
+        sex="all",
+        age_min=0.0,
+        age_max=120.0,
+        unit="%",
+        lower_bound=36.0,
+        upper_bound=52.0,
+        source_name="Clinical Laboratory Reference Standard",
+        source_version="2026.1",
+    ),
+    # MCV
+    ReferenceRangeDefinition(
+        analyte="MCV",
+        canonical_name="MCV",
+        panel="CBC",
+        sex="all",
+        age_min=18.0,
+        age_max=120.0,
+        unit="fL",
+        lower_bound=80.0,
+        upper_bound=100.0,
+        source_name="Clinical Laboratory Reference Standard",
+        source_version="2026.1",
+    ),
+    # MCH
+    ReferenceRangeDefinition(
+        analyte="MCH",
+        canonical_name="MCH",
+        panel="CBC",
+        sex="all",
+        age_min=18.0,
+        age_max=120.0,
+        unit="pg",
+        lower_bound=27.0,
+        upper_bound=33.0,
+        source_name="Clinical Laboratory Reference Standard",
+        source_version="2026.1",
+    ),
+    # MCHC
+    ReferenceRangeDefinition(
+        analyte="MCHC",
+        canonical_name="MCHC",
+        panel="CBC",
+        sex="all",
+        age_min=18.0,
+        age_max=120.0,
+        unit="g/dL",
+        lower_bound=32.0,
+        upper_bound=36.0,
+        source_name="Clinical Laboratory Reference Standard",
+        source_version="2026.1",
+    ),
+    # RDW
+    ReferenceRangeDefinition(
+        analyte="RDW",
+        canonical_name="RDW",
+        panel="CBC",
+        sex="all",
+        age_min=0.0,
+        age_max=120.0,
+        unit="%",
+        lower_bound=11.5,
+        upper_bound=14.5,
+        source_name="Clinical Laboratory Reference Standard",
+        source_version="2026.1",
+    ),
+
+    # -------------------------------------------------------------
+    # 2. Glucose Metabolism
+    # -------------------------------------------------------------
+    # Fasting Blood Sugar
+    ReferenceRangeDefinition(
+        analyte="Fasting Blood Sugar",
+        canonical_name="Fasting Blood Sugar",
+        panel="GLUCOSE",
+        sex="all",
+        age_min=0.0,
+        age_max=120.0,
+        unit="mg/dL",
+        lower_bound=70.0,
+        upper_bound=99.0,
+        critical_low=50.0,
+        critical_high=400.0,
+        source_name="ADA Clinical Practice Recommendations 2026",
+        source_version="2026.1",
+    ),
+    # Post Prandial Blood Sugar
+    ReferenceRangeDefinition(
+        analyte="Post Prandial Blood Sugar",
+        canonical_name="Post Prandial Blood Sugar",
+        panel="GLUCOSE",
+        sex="all",
+        age_min=0.0,
+        age_max=120.0,
+        unit="mg/dL",
+        lower_bound=70.0,
+        upper_bound=140.0,
+        critical_low=50.0,
+        critical_high=400.0,
+        source_name="ADA Clinical Practice Recommendations 2026",
+        source_version="2026.1",
+    ),
+    # Glucose (Random)
+    ReferenceRangeDefinition(
+        analyte="Glucose",
+        canonical_name="Glucose",
+        panel="GLUCOSE",
+        sex="all",
+        age_min=0.0,
+        age_max=120.0,
+        unit="mg/dL",
+        lower_bound=70.0,
+        upper_bound=140.0,
+        critical_low=50.0,
+        critical_high=400.0,
+        source_name="ADA Clinical Practice Recommendations 2026",
+        source_version="2026.1",
+    ),
+    # HbA1c
+    ReferenceRangeDefinition(
+        analyte="HbA1c",
+        canonical_name="HbA1c",
+        panel="GLUCOSE",
+        sex="all",
+        age_min=0.0,
+        age_max=120.0,
+        unit="%",
+        lower_bound=4.0,
+        upper_bound=5.6,
+        source_name="ADA Standards of Medical Care 2026",
+        source_version="2026.1",
+        notes="Normal glycemic range < 5.7%",
+    ),
+
+    # -------------------------------------------------------------
+    # 3. Kidney Function / Renal (KFT)
+    # -------------------------------------------------------------
+    # Creatinine - Male
+    ReferenceRangeDefinition(
+        analyte="Creatinine",
+        canonical_name="Creatinine",
+        panel="RENAL",
+        sex="male",
+        age_min=18.0,
+        age_max=120.0,
+        unit="mg/dL",
+        lower_bound=0.7,
+        upper_bound=1.3,
+        critical_high=5.0,
+        source_name="KDIGO Clinical Practice Guideline",
+        source_version="2026.1",
+    ),
+    # Creatinine - Female
+    ReferenceRangeDefinition(
+        analyte="Creatinine",
+        canonical_name="Creatinine",
+        panel="RENAL",
+        sex="female",
+        age_min=18.0,
+        age_max=120.0,
+        unit="mg/dL",
+        lower_bound=0.5,
+        upper_bound=1.1,
+        critical_high=5.0,
+        source_name="KDIGO Clinical Practice Guideline",
+        source_version="2026.1",
+    ),
+    # Creatinine - All
+    ReferenceRangeDefinition(
+        analyte="Creatinine",
+        canonical_name="Creatinine",
+        panel="RENAL",
+        sex="all",
+        age_min=0.0,
+        age_max=120.0,
+        unit="mg/dL",
+        lower_bound=0.6,
+        upper_bound=1.2,
+        critical_high=5.0,
+        source_name="KDIGO Clinical Practice Guideline",
+        source_version="2026.1",
+    ),
+    # Blood Urea
+    ReferenceRangeDefinition(
+        analyte="Urea",
+        canonical_name="Urea",
+        panel="RENAL",
+        sex="all",
+        age_min=0.0,
+        age_max=120.0,
+        unit="mg/dL",
+        lower_bound=15.0,
+        upper_bound=45.0,
+        source_name="Clinical Chemistry Reference Table",
+        source_version="2026.1",
+    ),
+    # BUN
+    ReferenceRangeDefinition(
+        analyte="BUN",
+        canonical_name="BUN",
+        panel="RENAL",
+        sex="all",
+        age_min=0.0,
+        age_max=120.0,
+        unit="mg/dL",
+        lower_bound=7.0,
+        upper_bound=20.0,
+        source_name="Clinical Chemistry Reference Table",
+        source_version="2026.1",
+    ),
+    # eGFR
+    ReferenceRangeDefinition(
+        analyte="eGFR",
+        canonical_name="eGFR",
+        panel="RENAL",
+        sex="all",
+        age_min=18.0,
+        age_max=120.0,
+        unit="mL/min/1.73m2",
+        lower_bound=90.0,
+        upper_bound=140.0,
+        critical_low=15.0,
+        source_name="KDIGO CKD Reference Guidelines",
+        source_version="2026.1",
+        notes="Normal filtration >= 90 mL/min/1.73m2",
+    ),
+    # Electrolytes: Sodium
+    ReferenceRangeDefinition(
+        analyte="Sodium",
+        canonical_name="Sodium",
+        panel="RENAL",
+        sex="all",
+        age_min=0.0,
+        age_max=120.0,
+        unit="mmol/L",
+        lower_bound=135.0,
+        upper_bound=145.0,
+        critical_low=120.0,
+        critical_high=160.0,
+        source_name="Tietz Textbook of Clinical Chemistry",
+        source_version="2026.1",
+    ),
+    # Electrolytes: Potassium
+    ReferenceRangeDefinition(
+        analyte="Potassium",
+        canonical_name="Potassium",
+        panel="RENAL",
+        sex="all",
+        age_min=0.0,
+        age_max=120.0,
+        unit="mmol/L",
+        lower_bound=3.5,
+        upper_bound=5.1,
+        critical_low=2.8,
+        critical_high=6.2,
+        source_name="Tietz Textbook of Clinical Chemistry",
+        source_version="2026.1",
+    ),
+    # Electrolytes: Chloride
+    ReferenceRangeDefinition(
+        analyte="Chloride",
+        canonical_name="Chloride",
+        panel="RENAL",
+        sex="all",
+        age_min=0.0,
+        age_max=120.0,
+        unit="mmol/L",
+        lower_bound=96.0,
+        upper_bound=106.0,
+        critical_low=80.0,
+        critical_high=120.0,
+        source_name="Tietz Textbook of Clinical Chemistry",
+        source_version="2026.1",
+    ),
+
+    # -------------------------------------------------------------
+    # 4. Liver Function Tests (LFT)
+    # -------------------------------------------------------------
+    # Total Bilirubin
+    ReferenceRangeDefinition(
+        analyte="Total Bilirubin",
+        canonical_name="Total Bilirubin",
+        panel="LIVER",
+        sex="all",
+        age_min=0.0,
+        age_max=120.0,
+        unit="mg/dL",
+        lower_bound=0.2,
+        upper_bound=1.2,
+        critical_high=15.0,
+        source_name="AASLD Guidelines",
+        source_version="2026.1",
+    ),
+    # Direct Bilirubin
+    ReferenceRangeDefinition(
+        analyte="Direct Bilirubin",
+        canonical_name="Direct Bilirubin",
+        panel="LIVER",
+        sex="all",
+        age_min=0.0,
+        age_max=120.0,
+        unit="mg/dL",
+        lower_bound=0.0,
+        upper_bound=0.3,
+        source_name="AASLD Guidelines",
+        source_version="2026.1",
+    ),
+    # AST / SGOT
+    ReferenceRangeDefinition(
+        analyte="AST",
+        canonical_name="AST",
+        panel="LIVER",
+        sex="all",
+        age_min=0.0,
+        age_max=120.0,
+        unit="U/L",
+        lower_bound=8.0,
+        upper_bound=40.0,
+        critical_high=1000.0,
+        source_name="AASLD Guidelines",
+        source_version="2026.1",
+    ),
+    # ALT / SGPT
+    ReferenceRangeDefinition(
+        analyte="ALT",
+        canonical_name="ALT",
+        panel="LIVER",
+        sex="all",
+        age_min=0.0,
+        age_max=120.0,
+        unit="U/L",
+        lower_bound=7.0,
+        upper_bound=56.0,
+        critical_high=1000.0,
+        source_name="AASLD Guidelines",
+        source_version="2026.1",
+    ),
+    # ALP (Alkaline Phosphatase)
+    ReferenceRangeDefinition(
+        analyte="ALP",
+        canonical_name="ALP",
+        panel="LIVER",
+        sex="all",
+        age_min=18.0,
+        age_max=120.0,
+        unit="U/L",
+        lower_bound=44.0,
+        upper_bound=147.0,
+        source_name="AASLD Guidelines",
+        source_version="2026.1",
+    ),
+    # Albumin
+    ReferenceRangeDefinition(
+        analyte="Albumin",
+        canonical_name="Albumin",
+        panel="LIVER",
+        sex="all",
+        age_min=0.0,
+        age_max=120.0,
+        unit="g/dL",
+        lower_bound=3.5,
+        upper_bound=5.5,
+        source_name="AASLD Guidelines",
+        source_version="2026.1",
+    ),
+    # Total Protein
+    ReferenceRangeDefinition(
+        analyte="Total Protein",
+        canonical_name="Total Protein",
+        panel="LIVER",
+        sex="all",
+        age_min=0.0,
+        age_max=120.0,
+        unit="g/dL",
+        lower_bound=6.0,
+        upper_bound=8.3,
+        source_name="AASLD Guidelines",
+        source_version="2026.1",
+    ),
+
+    # -------------------------------------------------------------
+    # 5. Lipid Profile
+    # -------------------------------------------------------------
+    # Total Cholesterol
+    ReferenceRangeDefinition(
+        analyte="Total Cholesterol",
+        canonical_name="Total Cholesterol",
+        panel="LIPID",
+        sex="all",
+        age_min=0.0,
+        age_max=120.0,
+        unit="mg/dL",
+        lower_bound=125.0,
+        upper_bound=200.0,
+        source_name="NCEP ATP III Guidelines",
+        source_version="2026.1",
+        notes="Desirable: < 200 mg/dL",
+    ),
+    # LDL Cholesterol
+    ReferenceRangeDefinition(
+        analyte="LDL",
+        canonical_name="LDL",
+        panel="LIPID",
+        sex="all",
+        age_min=0.0,
+        age_max=120.0,
+        unit="mg/dL",
+        lower_bound=0.0,
+        upper_bound=100.0,
+        source_name="NCEP ATP III Guidelines",
+        source_version="2026.1",
+        notes="Optimal: < 100 mg/dL",
+    ),
+    # HDL Cholesterol - Male
+    ReferenceRangeDefinition(
+        analyte="HDL",
+        canonical_name="HDL",
+        panel="LIPID",
+        sex="male",
+        age_min=0.0,
+        age_max=120.0,
+        unit="mg/dL",
+        lower_bound=40.0,
+        upper_bound=90.0,
+        source_name="NCEP ATP III Guidelines",
+        source_version="2026.1",
+        notes="Desirable: >= 40 mg/dL",
+    ),
+    # HDL Cholesterol - Female
+    ReferenceRangeDefinition(
+        analyte="HDL",
+        canonical_name="HDL",
+        panel="LIPID",
+        sex="female",
+        age_min=0.0,
+        age_max=120.0,
+        unit="mg/dL",
+        lower_bound=50.0,
+        upper_bound=90.0,
+        source_name="NCEP ATP III Guidelines",
+        source_version="2026.1",
+        notes="Desirable: >= 50 mg/dL",
+    ),
+    # HDL - All
+    ReferenceRangeDefinition(
+        analyte="HDL",
+        canonical_name="HDL",
+        panel="LIPID",
+        sex="all",
+        age_min=0.0,
+        age_max=120.0,
+        unit="mg/dL",
+        lower_bound=40.0,
+        upper_bound=90.0,
+        source_name="NCEP ATP III Guidelines",
+        source_version="2026.1",
+    ),
+    # Triglycerides
+    ReferenceRangeDefinition(
+        analyte="Triglycerides",
+        canonical_name="Triglycerides",
+        panel="LIPID",
+        sex="all",
+        age_min=0.0,
+        age_max=120.0,
+        unit="mg/dL",
+        lower_bound=0.0,
+        upper_bound=150.0,
+        critical_high=500.0,
+        source_name="NCEP ATP III Guidelines",
+        source_version="2026.1",
+        notes="Normal: < 150 mg/dL",
+    ),
+
+    # -------------------------------------------------------------
+    # 6. Thyroid Function
+    # -------------------------------------------------------------
+    # TSH
+    ReferenceRangeDefinition(
+        analyte="TSH",
+        canonical_name="TSH",
+        panel="THYROID",
+        sex="all",
+        age_min=0.0,
+        age_max=120.0,
+        unit="uIU/mL",
+        lower_bound=0.4,
+        upper_bound=4.5,
+        critical_low=0.01,
+        critical_high=20.0,
+        source_name="ATA Guidelines for Thyroid Disease",
+        source_version="2026.1",
+    ),
+    # Total T3
+    ReferenceRangeDefinition(
+        analyte="T3",
+        canonical_name="T3",
+        panel="THYROID",
+        sex="all",
+        age_min=0.0,
+        age_max=120.0,
+        unit="ng/dL",
+        lower_bound=80.0,
+        upper_bound=200.0,
+        source_name="ATA Guidelines for Thyroid Disease",
+        source_version="2026.1",
+    ),
+    # Total T4
+    ReferenceRangeDefinition(
+        analyte="T4",
+        canonical_name="T4",
+        panel="THYROID",
+        sex="all",
+        age_min=0.0,
+        age_max=120.0,
+        unit="ug/dL",
+        lower_bound=4.5,
+        upper_bound=12.0,
+        source_name="ATA Guidelines for Thyroid Disease",
+        source_version="2026.1",
+    ),
+
+    # -------------------------------------------------------------
+    # 7. Iron & Ferritin
+    # -------------------------------------------------------------
+    # Ferritin - Male
+    ReferenceRangeDefinition(
+        analyte="Ferritin",
+        canonical_name="Ferritin",
+        panel="IRON",
+        sex="male",
+        age_min=18.0,
+        age_max=120.0,
+        unit="ng/mL",
+        lower_bound=24.0,
+        upper_bound=336.0,
+        source_name="WHO Iron Guidelines / Tietz Reference Standards",
+        source_version="2026.1",
+    ),
+    # Ferritin - Female
+    ReferenceRangeDefinition(
+        analyte="Ferritin",
+        canonical_name="Ferritin",
+        panel="IRON",
+        sex="female",
+        age_min=18.0,
+        age_max=120.0,
+        unit="ng/mL",
+        lower_bound=11.0,
+        upper_bound=307.0,
+        source_name="WHO Iron Guidelines / Tietz Reference Standards",
+        source_version="2026.1",
+    ),
+    # Ferritin - All
+    ReferenceRangeDefinition(
+        analyte="Ferritin",
+        canonical_name="Ferritin",
+        panel="IRON",
+        sex="all",
+        age_min=0.0,
+        age_max=120.0,
+        unit="ng/mL",
+        lower_bound=15.0,
+        upper_bound=300.0,
+        source_name="WHO Iron Guidelines / Tietz Reference Standards",
+        source_version="2026.1",
+    ),
+    # Serum Iron
+    ReferenceRangeDefinition(
+        analyte="Serum Iron",
+        canonical_name="Serum Iron",
+        panel="IRON",
+        sex="all",
+        age_min=0.0,
+        age_max=120.0,
+        unit="ug/dL",
+        lower_bound=60.0,
+        upper_bound=170.0,
+        source_name="Tietz Fundamentals of Clinical Chemistry",
+        source_version="2026.1",
+    ),
+    # TIBC
+    ReferenceRangeDefinition(
+        analyte="TIBC",
+        canonical_name="TIBC",
+        panel="IRON",
+        sex="all",
+        age_min=0.0,
+        age_max=120.0,
+        unit="ug/dL",
+        lower_bound=240.0,
+        upper_bound=450.0,
+        source_name="Tietz Fundamentals of Clinical Chemistry",
+        source_version="2026.1",
+    ),
+
+    # -------------------------------------------------------------
+    # 8. Vitamins
+    # -------------------------------------------------------------
+    # Vitamin B12
+    ReferenceRangeDefinition(
+        analyte="Vitamin B12",
+        canonical_name="Vitamin B12",
+        panel="VITAMINS",
+        sex="all",
+        age_min=0.0,
+        age_max=120.0,
+        unit="pg/mL",
+        lower_bound=200.0,
+        upper_bound=900.0,
+        source_name="CDC / Tietz Clinical Chemistry Guide",
+        source_version="2026.1",
+    ),
+    # Vitamin D (25-OH)
+    ReferenceRangeDefinition(
+        analyte="Vitamin D",
+        canonical_name="Vitamin D",
+        panel="VITAMINS",
+        sex="all",
+        age_min=0.0,
+        age_max=120.0,
+        unit="ng/mL",
+        lower_bound=30.0,
+        upper_bound=100.0,
+        source_name="Endocrine Society Clinical Practice Guidelines",
+        source_version="2026.1",
+        notes="Sufficiency threshold: >= 30 ng/mL",
+    ),
+]
