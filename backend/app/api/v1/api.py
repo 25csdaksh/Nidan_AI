@@ -14,6 +14,7 @@ from app.modules.reports import router as reports_router
 from app.modules.users import router as users_router
 
 from app.modules.clinical_intelligence import clinical_intelligence_router
+from app.modules.prescription_intelligence import prescription_intelligence_router
 
 api_v1_router = APIRouter()
 
@@ -31,7 +32,11 @@ api_v1_router.include_router(
 )
 api_v1_router.include_router(
     clinical_intelligence_router,
-    tags=["Clinical Intelligence & Anomaly Engine (Phase 3)"],
+    tags=["Clinical Intelligence & Anomaly Engine (Phase 3 & 4)"],
+)
+api_v1_router.include_router(
+    prescription_intelligence_router,
+    tags=["Prescription Intelligence & Medication Safety (Phase 5)"],
 )
 api_v1_router.include_router(
     medical_records_router.router,

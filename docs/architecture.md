@@ -135,6 +135,14 @@ flowchart TD
 - **Multi-Visit Clinical Summary**: Generates section-by-section summaries with traceable evidence provenance ("Why did NIDAN AI conclude this?").
 - **Clinician Review Notes**: Allows licensed medical professionals to append timestamped longitudinal clinical annotations with full audit trail.
 
-
-
-
+### 3.9. Prescription Intelligence & Medication Safety Engine (Phase 5)
+- **Pipeline**: Ingest Prescription Document $\rightarrow$ OCR Block Routing $\rightarrow$ Medication Entity Extraction $\rightarrow$ Normalization & Controlled Vocabulary Mapping $\rightarrow$ Dosage/Route/Frequency/Duration Parsing $\rightarrow$ Multi-Engine Safety Screening (DDI, Allergy, Duplicates, Lab-Context, Contraindications) $\rightarrow$ Strict CDSS Safety Guardrail Validator $\rightarrow$ Provenance Tracking $\rightarrow$ Clinician Review Workbench.
+- **Controlled Medication Vocabulary**: Controlled dictionary of canonical generic and brand medications, dosage forms, routes, and standard frequency schedules with zero fuzzy hallucinations.
+- **Strict Non-Inference Safeguards**: Explicitly avoids inferring route from dosage form alone or duration from quantity counts; unresolved drugs map to `UNKNOWN` with confidence $\le 0.45$ mandating clinician review.
+- **Safety Screening Engines**:
+  - **Drug-Drug Interactions (DDI)**: Versioned, evidence-backed deterministic interaction catalog (INFO, LOW, MODERATE, HIGH, CRITICAL).
+  - **Documented Allergy Matching**: Exact and allergen-class cross-referencing against documented patient allergy lists (`POTENTIAL_ALLERGY_CONCERN`).
+  - **Duplicate Detection**: Identifies exact and same-generic duplicate prescriptions across encounters (`POTENTIAL_DUPLICATE`).
+  - **Lab-Medication Context**: Cross-links Phase 3/4 longitudinal lab findings (e.g. elevated Creatinine with Renally-eliminated drugs, Potassium abnormalities with ACE inhibitors/ARBs) with source observation IDs and dates.
+  - **Contraindication Framework**: Structured condition-medication contraindication rules with `INSUFFICIENT_CONTEXT` fallback.
+- **Clinician Review & Audit**: Full lifecycle review (`ACCEPTED`, `MODIFIED`, `REJECTED`, `PENDING_REVIEW`) with detailed audit logging for all prescription and safety events.

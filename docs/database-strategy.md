@@ -340,6 +340,77 @@ erDiagram
         text note
         datetime created_at
     }
+
+    PRESCRIPTION_MEDICATIONS {
+        uuid id PK
+        uuid prescription_id FK
+        uuid patient_id FK
+        string raw_medication_name
+        string canonical_medication_name
+        string generic_name
+        string brand_name
+        float strength_value
+        string strength_unit
+        string dosage_form
+        string route
+        string frequency_code
+        string frequency_text
+        string dose_quantity
+        float duration_value
+        string duration_unit
+        string instruction_text
+        boolean is_prn
+        datetime start_date
+        datetime end_date
+        float confidence
+        text source_text
+        integer page_number
+        jsonb bounding_box
+        string review_status
+        string reviewed_value
+        uuid reviewed_by FK
+        datetime reviewed_at
+        datetime created_at
+        datetime updated_at
+    }
+
+    MEDICATION_SAFETY_FINDINGS {
+        uuid id PK
+        uuid patient_id FK
+        uuid prescription_id FK
+        uuid medication_id FK
+        string finding_type
+        string severity
+        string title
+        text description
+        text clinical_association
+        jsonb evidence
+        float confidence
+        string rule_id
+        string rule_version
+        boolean requires_review
+        string review_status
+        text clinician_note
+        uuid reviewed_by FK
+        datetime reviewed_at
+        datetime created_at
+        datetime updated_at
+    }
+
+    MEDICATION_INTERACTION_RULES {
+        uuid id PK
+        string drug_a
+        string drug_b
+        string interaction_type
+        string severity
+        text description
+        string evidence_source
+        string source_version
+        string rule_version
+        boolean requires_review
+        boolean active
+        datetime created_at
+    }
 ```
 
 ## 4. Partitioning & Indexing Strategy
@@ -348,8 +419,13 @@ erDiagram
    - `clinical_observations`: Indexed on `patient_id`, `observation_date`, `analyte`, `canonical_name`, `document_id`, `technical_status`, `normalized_value`.
    - `longitudinal_trends`: Indexed on `analysis_id`, `patient_id`, `analyte`, `canonical_name`, `direction`, `trend_status`, `dynamics_classification`.
    - `longitudinal_summary_sections`: Indexed on `analysis_id`, `patient_id`, `section_type`.
-3. **GIN Indexes**: Specialized `jsonb_path_ops` on `extracted_insights` and `flagged_abnormalities` for high-throughput anomaly querying.
-4. **Partitioning**:
+3. **Phase 5 Prescription & Safety Indexes**:
+   - `prescriptions`: Composite index `(patient_id, prescription_date)`, `document_id`, `status`.
+   - `prescription_medications`: Composite index `(patient_id, canonical_medication_name)`, `prescription_id`, `canonical_medication_name`, `review_status`.
+   - `medication_safety_findings`: Composite index `(patient_id, finding_type, severity)`, `prescription_id`, `medication_id`, `rule_id`, `review_status`.
+   - `medication_interaction_rules`: Composite index `(drug_a, drug_b)`, `severity`, `active`.
+4. **GIN Indexes**: Specialized `jsonb_path_ops` on `evidence` and `doc_metadata` for rapid provenance retrieval.
+5. **Partitioning**:
    - `AUDIT_LOGS` partitioned quarterly by `created_at` for regulatory archiving and zero-downtime roll-offs.
    - `CLINICAL_OBSERVATIONS` composite indexed by `(patient_id, canonical_name, observation_date)` for instant multi-visit longitudinal queries supporting 1,000+ observations per patient.
 

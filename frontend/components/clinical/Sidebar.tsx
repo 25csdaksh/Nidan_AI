@@ -23,6 +23,7 @@ import { cn } from "@/lib/utils";
 const navigationItems = [
   { name: "Clinical Dashboard", href: "/", icon: LayoutDashboard },
   { name: "Patients Directory", href: "/patients", icon: Users },
+  { name: "Prescriptions & Safety", href: "/prescriptions", icon: Pill },
   { name: "Ingestion & Reports", href: "/reports", icon: FolderOpen },
   { name: "Audit Trail (HIPAA)", href: "/audit", icon: Shield },
 ];
