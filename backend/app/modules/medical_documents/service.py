@@ -3,7 +3,7 @@ import os
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import List, Optional, Tuple
+from typing import TYPE_CHECKING, List, Optional, Tuple
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.config import settings
@@ -23,6 +23,9 @@ from app.modules.medical_documents.models import (
 from app.modules.medical_documents.schemas import DuplicateWarningInfo
 from app.modules.medical_documents.validation import FileSecurityValidator
 from app.modules.patients.service import PatientService
+
+if TYPE_CHECKING:
+    from app.modules.medical_documents.models import DocumentExtraction, DocumentExtractionEntity
 
 
 class MedicalDocumentService:
@@ -587,4 +590,3 @@ class MedicalDocumentService:
         await self.db.flush()
         await self.db.refresh(entity)
         return entity
-
