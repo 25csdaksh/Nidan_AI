@@ -15,6 +15,7 @@ from app.modules.users import router as users_router
 
 from app.modules.clinical_intelligence import clinical_intelligence_router
 from app.modules.prescription_intelligence import prescription_intelligence_router
+from app.modules.doctor_copilot import doctor_copilot_router
 
 api_v1_router = APIRouter()
 
@@ -37,6 +38,10 @@ api_v1_router.include_router(
 api_v1_router.include_router(
     prescription_intelligence_router,
     tags=["Prescription Intelligence & Medication Safety (Phase 5)"],
+)
+api_v1_router.include_router(
+    doctor_copilot_router,
+    tags=["Doctor AI Copilot & Evidence-Grounded Assistant (Phase 6)"],
 )
 api_v1_router.include_router(
     medical_records_router.router,
@@ -62,3 +67,4 @@ api_v1_router.include_router(
     prefix="/notifications",
     tags=["Clinical Alerts & Notifications"],
 )
+

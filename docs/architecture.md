@@ -146,3 +146,11 @@ flowchart TD
   - **Lab-Medication Context**: Cross-links Phase 3/4 longitudinal lab findings (e.g. elevated Creatinine with Renally-eliminated drugs, Potassium abnormalities with ACE inhibitors/ARBs) with source observation IDs and dates.
   - **Contraindication Framework**: Structured condition-medication contraindication rules with `INSUFFICIENT_CONTEXT` fallback.
 - **Clinician Review & Audit**: Full lifecycle review (`ACCEPTED`, `MODIFIED`, `REJECTED`, `PENDING_REVIEW`) with detailed audit logging for all prescription and safety events.
+
+### 3.10. Doctor AI Copilot & Evidence-Grounded Assistant (Phase 6)
+- **Pipeline**: Clinician Query $\rightarrow$ Prohibited Request Pre-Screening $\rightarrow$ Bounded Clinical Context Construction (Demographics, Labs, Trends, Prescriptions, Safety Alerts, Notes) $\rightarrow$ Query Classification & Entity Focus $\rightarrow$ Relevance-Ranked Evidence Retrieval $\rightarrow$ Language Layer $\rightarrow$ Master CDSS Safety Validator (Hallucination Guard, Claim Citation Validator, Non-Prescriptive/Non-Diagnostic Filters) $\rightarrow$ Evidence Provenance Linking $\rightarrow$ Doctor-Facing Structured Output.
+- **Strict Non-Diagnostic & Non-Prescriptive CDSS Boundaries**: Bars autonomous disease diagnosis, drug prescribing, dose titrations, prognosis predictions, or treatment plans.
+- **Evidence-Grounded Citations**: Every factual statement is bound to discrete evidence identifiers (`EVID-LAB-...`, `EVID-MED-...`, `EVID-SAFETY-...`, `EVID-TREND-...`) for one-click drilldown in the clinician UI.
+- **Prompt Injection Defense**: Medical reports, OCR text, and notes are treated strictly as untrusted text data, ignoring any embedded directives or prompt injection attempts.
+- **Clinician Feedback & Audit**: Captures structured clinician feedback and logs all session queries, responses, and safety blocks for HIPAA compliance.
+

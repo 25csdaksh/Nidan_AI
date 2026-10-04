@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Activity,
+  Bot,
   Cpu,
   FileSpreadsheet,
   FileText,
@@ -22,11 +23,13 @@ import { cn } from "@/lib/utils";
 
 const navigationItems = [
   { name: "Clinical Dashboard", href: "/", icon: LayoutDashboard },
+  { name: "Doctor AI Copilot", href: "/copilot", icon: Bot },
   { name: "Patients Directory", href: "/patients", icon: Users },
   { name: "Prescriptions & Safety", href: "/prescriptions", icon: Pill },
   { name: "Ingestion & Reports", href: "/reports", icon: FolderOpen },
   { name: "Audit Trail (HIPAA)", href: "/audit", icon: Shield },
 ];
+
 
 const modalityCategories = [
   { name: "Blood Reports", icon: Activity, count: "Active" },

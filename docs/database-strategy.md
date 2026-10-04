@@ -411,6 +411,47 @@ erDiagram
         boolean active
         datetime created_at
     }
+
+    COPILOT_SESSIONS {
+        uuid id PK
+        uuid patient_id FK
+        uuid clinician_id FK
+        string title
+        string status
+        string context_version
+        jsonb metadata_json
+        datetime created_at
+        datetime updated_at
+    }
+
+    COPILOT_MESSAGES {
+        uuid id PK
+        uuid session_id FK
+        uuid patient_id FK
+        string role
+        text content
+        string query_type
+        jsonb structured_response
+        jsonb evidence_ids
+        string safety_status
+        string model_provider
+        string model_version
+        string prompt_version
+        string safety_version
+        integer response_latency_ms
+        datetime created_at
+    }
+
+    COPILOT_FEEDBACK {
+        uuid id PK
+        uuid message_id FK
+        uuid clinician_id FK
+        uuid patient_id FK
+        string rating
+        string feedback_category
+        text comments
+        datetime created_at
+    }
 ```
 
 ## 4. Partitioning & Indexing Strategy
@@ -424,8 +465,12 @@ erDiagram
    - `prescription_medications`: Composite index `(patient_id, canonical_medication_name)`, `prescription_id`, `canonical_medication_name`, `review_status`.
    - `medication_safety_findings`: Composite index `(patient_id, finding_type, severity)`, `prescription_id`, `medication_id`, `rule_id`, `review_status`.
    - `medication_interaction_rules`: Composite index `(drug_a, drug_b)`, `severity`, `active`.
-4. **GIN Indexes**: Specialized `jsonb_path_ops` on `evidence` and `doc_metadata` for rapid provenance retrieval.
-5. **Partitioning**:
+4. **Phase 6 Doctor Copilot Indexes**:
+   - `copilot_sessions`: Composite index `(patient_id, created_at)`, `(clinician_id, patient_id)`, `status`.
+   - `copilot_messages`: Composite index `(session_id, created_at)`, `(patient_id, created_at)`, `safety_status`, `query_type`.
+   - `copilot_feedback`: `message_id`, `clinician_id`, `feedback_category`.
+5. **GIN Indexes**: Specialized `jsonb_path_ops` on `evidence` and `doc_metadata` for rapid provenance retrieval.
+6. **Partitioning**:
    - `AUDIT_LOGS` partitioned quarterly by `created_at` for regulatory archiving and zero-downtime roll-offs.
    - `CLINICAL_OBSERVATIONS` composite indexed by `(patient_id, canonical_name, observation_date)` for instant multi-visit longitudinal queries supporting 1,000+ observations per patient.
 
@@ -433,3 +478,4 @@ erDiagram
 - Medical history records are **never hard-deleted** in production.
 - `is_deleted` and `deleted_at` timestamps protect audit trails.
 - Longitudinal analyses and doctor review notes are **immutable snapshots** with version increments (`analysis_version`, `trend_rule_version`).
+- Copilot messages are **immutable clinical conversation logs** retaining model version stamps and safety validation statuses.

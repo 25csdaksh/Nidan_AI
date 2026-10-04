@@ -18,8 +18,10 @@
 2. **Clinical Intelligence & Anomaly Engine (Phase 3)**: Deterministic, demographic-aware reference range resolution (CLSI, WHO, ADA, KDIGO, AASLD), critical alerts, controlled deficiency markers, and multi-marker pattern inference (Iron deficiency, Macrocytic, Glycemic, Renal-function, Hepatic).
 3. **Longitudinal Patient Intelligence & Multi-Visit Summary Engine (Phase 4)**: Normalized clinical observation repository (`clinical_observations`), prioritized observation date resolution, deterministic analyte trend engine (improving/worsening/stable trajectories with noise thresholds), abnormality dynamics detection (persistent, new, resolved, recurring, fluctuating), panel completeness checking, cross-visit comparison engine, traceable multi-visit summary synthesis, and clinician longitudinal review notes.
 4. **Prescription Intelligence & Medication Safety Engine (Phase 5)**: Structured prescription extraction, controlled medication normalization, strength/route/frequency/duration parsing (strict non-inference & quantity separation), multi-engine safety screening (Drug-Drug Interactions, Documented Allergy matching, Duplicate medication detection, Lab-Medication context signals, Clinical contraindications), auditable evidence provenance, clinician verification review workflow, and longitudinal patient medication timelines.
-5. **Chest & Skeletal X-Rays**: DICOM metadata, radiograph study linking, radiologist impression extraction.
-6. **Sonography / Ultrasound**: USG scans, biometric measurement extraction, structured impression logs.
+5. **Doctor AI Copilot & Evidence-Grounded Assistant (Phase 6)**: Interactive clinical Q&A assistant grounded in verified patient observations, longitudinal trends, and medication records with deterministic evidence citations (`[EVID-...]`), prompt injection defenses, hallucination prevention, prohibited clinical decision pre-screening, and HIPAA audit logging.
+6. **Chest & Skeletal X-Rays**: DICOM metadata, radiograph study linking, radiologist impression extraction.
+7. **Sonography / Ultrasound**: USG scans, biometric measurement extraction, structured impression logs.
+
 
 
 ---

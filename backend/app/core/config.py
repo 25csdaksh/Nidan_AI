@@ -70,4 +70,16 @@ class Settings(BaseSettings):
         return v
 
 
+    # Doctor Copilot & LLM Settings (Phase 6)
+    LLM_PROVIDER: str = "mock"  # 'mock', 'openai', 'anthropic', 'gemini'
+    LLM_MODEL_NAME: str = "nidan-clinical-deterministic-v1"
+    LLM_API_KEY: str = ""
+    COPILOT_MAX_DOCUMENTS: int = 20
+    COPILOT_MAX_OBSERVATIONS: int = 100
+    COPILOT_MAX_FINDINGS: int = 50
+    COPILOT_MAX_MEDICATIONS: int = 50
+    COPILOT_MAX_NOTES: int = 20
+    COPILOT_TIMEOUT_SECONDS: int = 30
+
+
 settings = Settings()
