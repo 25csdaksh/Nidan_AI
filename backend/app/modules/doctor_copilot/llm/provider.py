@@ -172,7 +172,29 @@ class DeterministicCopilotEngine(BaseCopilotLLMProvider):
             else:
                 answer_parts.append("No active or historical prescription medications are documented in the available record.")
 
-        # 8. DATA QUALITY
+        # 8. MEDICAL IMAGING (CHEST X-RAY)
+        elif query_type in [QueryType.IMAGING_QUERY, QueryType.IMAGING_COMPARISON]:
+            answer_parts.append(f"Chest X-Ray Imaging Intelligence Summary for {pt_name}:")
+            imaging_items = [e for e in evidence_items if e.type == EvidenceType.IMAGING_FINDING]
+            if imaging_items:
+                for img in imaging_items:
+                    rev_status = img.review_status or "PENDING"
+                    model_ver = img.details.get("model_version", "v1.0") if img.details else "v1.0"
+                    date_str = img.date or "Recent"
+                    answer_parts.append(
+                        f"- {img.title}: {img.value} (Study Date: {date_str}, Review: {rev_status}, Model: {model_ver}). "
+                        f"Requires clinician/radiologist verification. [{img.evidence_id}]"
+                    )
+                    claims.append(
+                        ClaimItem(
+                            claim=f"Radiographic finding {img.title} reported with {img.value} on {date_str} (Review: {rev_status}).",
+                            evidence_ids=[img.evidence_id],
+                        )
+                    )
+            else:
+                answer_parts.append("No automated chest X-ray findings or imaging studies recorded in the available patient records.")
+
+        # 9. DATA QUALITY
         elif query_type == QueryType.DATA_QUALITY_QUERY:
             answer_parts.append(f"Data Quality & Record Completeness Assessment for {pt_name}:")
             dq_notes = patient_context.get("data_quality_notes", [])
@@ -183,7 +205,7 @@ class DeterministicCopilotEngine(BaseCopilotLLMProvider):
             else:
                 answer_parts.append("Patient record has verified laboratory observations, prescriptions, and demographic metadata.")
 
-        # 9. GENERAL / OTHER QUERY
+        # 10. GENERAL / OTHER QUERY
         else:
             answer_parts.append(f"Clinical Observations for {pt_name}:")
             for e in evidence_items[:5]:

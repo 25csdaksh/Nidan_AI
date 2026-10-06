@@ -26,6 +26,12 @@ async def process_task(task_data: dict):
         doc_id = payload.get("document_id")
         if doc_id:
             await process_medical_document_task(doc_id)
+    elif task_name == "process_imaging_analysis":
+        study_id = payload.get("study_id")
+        user_id = payload.get("user_id")
+        if study_id:
+            from app.modules.imaging.service import process_imaging_analysis_task
+            await process_imaging_analysis_task(study_id, user_id=user_id)
     else:
         # Generic task simulation / fallback
         await asyncio.sleep(0.5)

@@ -54,9 +54,14 @@ class EvidenceRetriever:
                     score += 50
                 elif item.type in [EvidenceType.MEDICATION, EvidenceType.ALLERGY_RECORD, EvidenceType.LAB_RESULT]:
                     score += 20
+            elif query_type in [QueryType.IMAGING_QUERY, QueryType.IMAGING_COMPARISON]:
+                if item.type == EvidenceType.IMAGING_FINDING:
+                    score += 60
+                elif item.type in [EvidenceType.CLINICAL_FINDING, EvidenceType.DOCUMENT]:
+                    score += 20
             elif query_type == QueryType.PATIENT_SUMMARY:
                 # Balanced representation
-                if item.type in [EvidenceType.CLINICAL_FINDING, EvidenceType.MEDICATION_SAFETY, EvidenceType.LONGITUDINAL_TREND]:
+                if item.type in [EvidenceType.CLINICAL_FINDING, EvidenceType.IMAGING_FINDING, EvidenceType.MEDICATION_SAFETY, EvidenceType.LONGITUDINAL_TREND]:
                     score += 25
                 else:
                     score += 10

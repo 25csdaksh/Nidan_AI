@@ -10,6 +10,7 @@ from app.modules.doctor_copilot.context.medication_context import build_medicati
 from app.modules.doctor_copilot.context.prescription_context import build_prescription_context
 from app.modules.doctor_copilot.context.document_context import build_document_context
 from app.modules.doctor_copilot.context.clinician_note_context import build_clinician_note_context
+from app.modules.doctor_copilot.context.imaging_context import build_imaging_context
 
 logger = logging.getLogger("nidan_ai.doctor_copilot.context_builder")
 
@@ -65,6 +66,9 @@ class ClinicalContextBuilder:
         # 7. Clinician Notes
         note_data = await build_clinician_note_context(session, patient_id, self.max_notes)
 
+        # 8. Imaging Studies & Findings (Phase 7)
+        imaging_data = await build_imaging_context(session, patient_id, max_studies=5, max_findings=self.max_findings)
+
         # Aggregate evidence items
         all_evidence: List[EvidenceItem] = []
         all_evidence.extend(patient_data.get("evidence_items", []))
@@ -74,6 +78,7 @@ class ClinicalContextBuilder:
         all_evidence.extend(rx_data.get("evidence_items", []))
         all_evidence.extend(doc_data.get("evidence_items", []))
         all_evidence.extend(note_data.get("evidence_items", []))
+        all_evidence.extend(imaging_data.get("evidence_items", []))
 
         # Evidence dictionary keyed by evidence_id
         evidence_catalog: Dict[str, EvidenceItem] = {
@@ -89,6 +94,7 @@ class ClinicalContextBuilder:
             + rx_data.get("prescriptions_count", 0)
             + doc_data.get("documents_count", 0)
             + note_data.get("notes_count", 0)
+            + imaging_data.get("studies_count", 0)
         )
         records_included = len(all_evidence)
         records_excluded = max(0, records_considered - records_included)
@@ -105,6 +111,8 @@ class ClinicalContextBuilder:
             data_quality_notes.append("Longitudinal multi-visit analysis has not been executed or insufficient encounters exist.")
         if doc_data.get("documents_count", 0) == 0:
             data_quality_notes.append("No uploaded medical documents found for this patient.")
+        if not imaging_data.get("has_imaging", False):
+            data_quality_notes.append("No chest X-ray or medical imaging studies recorded for this patient.")
 
         return {
             "patient": patient_data,
@@ -114,6 +122,7 @@ class ClinicalContextBuilder:
             "prescriptions": rx_data,
             "documents": doc_data,
             "clinician_notes": note_data,
+            "imaging": imaging_data,
             "evidence_catalog": evidence_catalog,
             "all_evidence": all_evidence,
             "data_quality_notes": data_quality_notes,

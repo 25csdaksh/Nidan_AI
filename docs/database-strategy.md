@@ -452,6 +452,79 @@ erDiagram
         text comments
         datetime created_at
     }
+    IMAGING_STUDIES {
+        uuid id PK
+        uuid patient_id FK
+        uuid medical_document_id FK
+        uuid report_id FK
+        string modality
+        string body_part
+        string view_position
+        datetime study_date
+        datetime acquisition_date
+        integer image_count
+        string image_quality_status
+        string processing_status
+        uuid current_analysis_id
+        jsonb metadata_json
+        datetime created_at
+        datetime updated_at
+    }
+
+    IMAGING_IMAGES {
+        uuid id PK
+        uuid imaging_study_id FK
+        string storage_key
+        string original_filename
+        string mime_type
+        integer file_size
+        string sha256_hash
+        integer width
+        integer height
+        integer bit_depth
+        string color_space
+        string orientation
+        jsonb metadata_json
+        datetime created_at
+    }
+
+    IMAGING_ANALYSES {
+        uuid id PK
+        uuid imaging_study_id FK
+        string model_id
+        string model_version
+        string preprocessing_version
+        string inference_version
+        string threshold_version
+        string status
+        string image_quality_status
+        string input_hash
+        jsonb output_json
+        integer processing_time_ms
+        text error
+        datetime created_at
+        datetime completed_at
+    }
+
+    IMAGING_FINDINGS {
+        uuid id PK
+        uuid imaging_analysis_id FK
+        string finding_code
+        string finding_name
+        string anatomical_region
+        float probability
+        float confidence
+        string severity
+        float model_threshold
+        jsonb localization_json
+        text explanation
+        jsonb evidence_json
+        string review_status
+        uuid reviewed_by FK
+        datetime reviewed_at
+        text clinician_comment
+        datetime created_at
+    }
 ```
 
 ## 4. Partitioning & Indexing Strategy
@@ -469,8 +542,13 @@ erDiagram
    - `copilot_sessions`: Composite index `(patient_id, created_at)`, `(clinician_id, patient_id)`, `status`.
    - `copilot_messages`: Composite index `(session_id, created_at)`, `(patient_id, created_at)`, `safety_status`, `query_type`.
    - `copilot_feedback`: `message_id`, `clinician_id`, `feedback_category`.
-5. **GIN Indexes**: Specialized `jsonb_path_ops` on `evidence` and `doc_metadata` for rapid provenance retrieval.
-6. **Partitioning**:
+5. **Phase 7 Medical Imaging Indexes**:
+   - `imaging_studies`: Composite index `(patient_id, study_date)`, `(patient_id, processing_status)`, `modality`, `medical_document_id`.
+   - `imaging_images`: `imaging_study_id`, `sha256_hash`.
+   - `imaging_analyses`: `imaging_study_id`, `status`, `model_id`.
+   - `imaging_findings`: Composite index `(imaging_analysis_id, review_status)`, `finding_code`, `review_status`.
+6. **GIN Indexes**: Specialized `jsonb_path_ops` on `evidence`, `localization_json`, and `metadata_json` for rapid provenance retrieval.
+7. **Partitioning**:
    - `AUDIT_LOGS` partitioned quarterly by `created_at` for regulatory archiving and zero-downtime roll-offs.
    - `CLINICAL_OBSERVATIONS` composite indexed by `(patient_id, canonical_name, observation_date)` for instant multi-visit longitudinal queries supporting 1,000+ observations per patient.
 
@@ -479,3 +557,4 @@ erDiagram
 - `is_deleted` and `deleted_at` timestamps protect audit trails.
 - Longitudinal analyses and doctor review notes are **immutable snapshots** with version increments (`analysis_version`, `trend_rule_version`).
 - Copilot messages are **immutable clinical conversation logs** retaining model version stamps and safety validation statuses.
+- Raw vision model outputs (`output_json`), heatmaps, and probability matrices are **immutable permanent records** preserving ML reproducibility against future model weight updates.

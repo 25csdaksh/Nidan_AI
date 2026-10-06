@@ -154,3 +154,10 @@ flowchart TD
 - **Prompt Injection Defense**: Medical reports, OCR text, and notes are treated strictly as untrusted text data, ignoring any embedded directives or prompt injection attempts.
 - **Clinician Feedback & Audit**: Captures structured clinician feedback and logs all session queries, responses, and safety blocks for HIPAA compliance.
 
+### 3.11. Medical Imaging Intelligence & Chest X-Ray Analysis Foundation (Phase 7)
+- **Pipeline**: Medical Scan / DICOM $\rightarrow$ Secure Ingestion & MIME/Magic-Bytes Validation $\rightarrow$ Image Quality Gate (Contrast, Blur, Exposure) $\rightarrow$ Deterministic Preprocessing (`xray-preprocess-v1`) $\rightarrow$ Vision Model Registry (PyTorch/ONNX abstraction) $\rightarrow$ Calibration & Uncertainty Handling $\rightarrow$ Explainability Localization (Grad-CAM/Spatial Attention) $\rightarrow$ Structured Findings Builder $\rightarrow$ Safety Validator $\rightarrow$ Evidence Provenance (`EVID-XRAY-...`) $\rightarrow$ Clinician Review (HITL) $\rightarrow$ Longitudinal Timeline & Doctor Copilot Integration.
+- **Quality Gate**: Automatic quality categorization (`QUALITY_ACCEPTED`, `QUALITY_WARNING`, `QUALITY_REJECTED`) rejecting severely degraded inputs to prevent deceptive automated inference.
+- **Model Registry & Governance**: Controlled versioning (`model_id`, `model_version`, `preprocessing_version`, `threshold_version`) with SHA-256 checksums and explicit DEMO/TEST-ONLY markings on development fixtures.
+- **Explainability & Localization**: Spatial attention maps and estimated anatomical bounding boxes marked as assistive localization (never "disease locations").
+- **Clinician Review & Immutability**: Full HITL verification workflow (`PENDING`, `ACCEPTED`, `MODIFIED`, `REJECTED`) preserving raw model inferences permanently intact for medico-legal auditability.
+

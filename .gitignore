@@ -57,6 +57,15 @@ logs/
 *.db
 pgdata/
 
+# Data & Models
+data/
+*.dcm
+*.dicom
+*.pt
+*.pth
+*.onnx
+*.bin
+
 # IDE / OS
 .vscode/
 .idea/

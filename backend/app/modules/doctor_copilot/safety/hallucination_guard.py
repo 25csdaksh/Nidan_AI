@@ -3,7 +3,8 @@ from typing import Any, Dict, List, Set, Tuple
 from app.modules.doctor_copilot.schemas import EvidenceItem, EvidenceType
 
 DIAGNOSTIC_ASSERTION_PATTERNS = [
-    r"\b(patient is diagnosed with|diagnosed as having|patient has (diabetes mellitus|iron deficiency anemia|ckd|chronic kidney disease|cirrhosis|leukemia))\b",
+    r"\b(patient is diagnosed with|diagnosed as having|patient definitely has)\b",
+    r"\bpatient has (diabetes mellitus|iron deficiency anemia|ckd|chronic kidney disease|cirrhosis|leukemia|pneumonia|tuberculosis|lung cancer|pulmonary edema|pleural effusion|pneumothorax|cardiomegaly)\b",
     r"\b(confirmed diagnosis of|definitive diagnosis is)\b",
 ]
 

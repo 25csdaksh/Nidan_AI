@@ -1,0 +1,64 @@
+{
+  "manifest_version": "1.0.0",
+  "model_id": "XRAY_PYTORCH_DENSENET121_V1",
+  "model_family": "TorchXRayVision DenseNet-121",
+  "checkpoint_identifier": "densenet121-res224-all",
+  "framework": "PYTORCH",
+  "architecture": {
+    "backbone": "DenseNet-121",
+    "growth_rate": 32,
+    "block_config": [6, 12, 24, 16],
+    "num_init_features": 64,
+    "in_channels": 1,
+    "num_classes": 18,
+    "total_parameters": 6966034
+  },
+  "weights": {
+    "filename": "densenet121-res224-all.pt",
+    "relative_path": "backend/models/weights/densenet121-res224-all.pt",
+    "file_size_bytes": 28382008,
+    "file_size_mb": 27.07,
+    "sha256": "56524913dd16a906422e8d8b66a7a5c46be1d82eb7ac012d8103776f1aa68899",
+    "source_url": "https://github.com/mlmed/torchxrayvision/releases/download/v1/nih-pc-chex-mimic_ch-google-openi-kaggle-densenet121-d121-tw-lr001-rot45-tr15-sc15-seed0-best.pt",
+    "upstream_package": "torchxrayvision==1.5.5",
+    "upstream_reference": "https://arxiv.org/abs/2002.02497"
+  },
+  "license": {
+    "name": "Apache License 2.0",
+    "attribution": "Joseph Paul Cohen, et al. TorchXRayVision: A library of medical imaging models and datasets. MIDL 2022.",
+    "use_limitation": "Research and assistive clinical decision support evaluation only. Prohibited for autonomous diagnostic use."
+  },
+  "input_requirements": {
+    "modality": "CHEST_RADIOGRAPH",
+    "supported_projections": ["PA", "AP"],
+    "channels": 1,
+    "color_space": "GRAYSCALE_L",
+    "target_resolution": [224, 224],
+    "normalization": "[-1024.0, 1024.0] via xrv.datasets.normalize"
+  },
+  "output_pathology_mapping": {
+    "Atelectasis": {"nidan_code": "ATELECTASIS", "mapping_type": "DIRECT", "supported": true},
+    "Consolidation": {"nidan_code": "CONSOLIDATION", "mapping_type": "DIRECT", "supported": true},
+    "Infiltration": {"nidan_code": "INFILTRATION", "mapping_type": "DIRECT", "supported": true},
+    "Pneumothorax": {"nidan_code": "PNEUMOTHORAX", "mapping_type": "DIRECT", "supported": true},
+    "Edema": {"nidan_code": "EDEMA", "mapping_type": "DIRECT", "supported": true},
+    "Emphysema": {"nidan_code": null, "mapping_type": "UNSUPPORTED", "supported": false, "notes": "Excluded from NIDAN 12-condition core taxonomy"},
+    "Fibrosis": {"nidan_code": "FIBROSIS", "mapping_type": "DIRECT", "supported": true},
+    "Effusion": {"nidan_code": "PLEURAL_EFFUSION", "mapping_type": "DIRECT", "supported": true},
+    "Pneumonia": {"nidan_code": "PNEUMONIA", "mapping_type": "DIRECT", "supported": true},
+    "Pleural_Thickening": {"nidan_code": "PLEURAL_THICKENING", "mapping_type": "DIRECT", "supported": true},
+    "Cardiomegaly": {"nidan_code": "CARDIOMEGALY", "mapping_type": "DIRECT", "supported": true},
+    "Nodule": {"nidan_code": "NODULE", "mapping_type": "DIRECT", "supported": true},
+    "Mass": {"nidan_code": "MASS", "mapping_type": "DIRECT", "supported": true},
+    "Hernia": {"nidan_code": null, "mapping_type": "UNSUPPORTED", "supported": false, "notes": "Excluded from NIDAN 12-condition core taxonomy"},
+    "Lung Lesion": {"nidan_code": null, "mapping_type": "UNSUPPORTED", "supported": false, "notes": "Excluded from NIDAN 12-condition core taxonomy"},
+    "Fracture": {"nidan_code": null, "mapping_type": "UNSUPPORTED", "supported": false, "notes": "Excluded from NIDAN 12-condition core taxonomy"},
+    "Lung Opacity": {"nidan_code": null, "mapping_type": "UNSUPPORTED", "supported": false, "notes": "Non-specific composite radiographic sign; excluded from primary 12-condition predictions"},
+    "Enlarged Cardiomediastinum": {"nidan_code": null, "mapping_type": "UNSUPPORTED", "supported": false, "notes": "Excluded from NIDAN 12-condition core taxonomy"}
+  },
+  "governance": {
+    "clinical_status": "NOT CLINICALLY VALIDATED",
+    "intended_use": "ASSISTIVE_CLINICAL_DECISION_SUPPORT_CHEST_XRAY",
+    "safety_disclaimer": "Outputs represent non-calibrated raw logits / sigmoid scores and require independent verification by a certified physician or radiologist."
+  }
+}

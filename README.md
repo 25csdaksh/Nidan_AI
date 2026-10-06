@@ -19,8 +19,8 @@
 3. **Longitudinal Patient Intelligence & Multi-Visit Summary Engine (Phase 4)**: Normalized clinical observation repository (`clinical_observations`), prioritized observation date resolution, deterministic analyte trend engine (improving/worsening/stable trajectories with noise thresholds), abnormality dynamics detection (persistent, new, resolved, recurring, fluctuating), panel completeness checking, cross-visit comparison engine, traceable multi-visit summary synthesis, and clinician longitudinal review notes.
 4. **Prescription Intelligence & Medication Safety Engine (Phase 5)**: Structured prescription extraction, controlled medication normalization, strength/route/frequency/duration parsing (strict non-inference & quantity separation), multi-engine safety screening (Drug-Drug Interactions, Documented Allergy matching, Duplicate medication detection, Lab-Medication context signals, Clinical contraindications), auditable evidence provenance, clinician verification review workflow, and longitudinal patient medication timelines.
 5. **Doctor AI Copilot & Evidence-Grounded Assistant (Phase 6)**: Interactive clinical Q&A assistant grounded in verified patient observations, longitudinal trends, and medication records with deterministic evidence citations (`[EVID-...]`), prompt injection defenses, hallucination prevention, prohibited clinical decision pre-screening, and HIPAA audit logging.
-6. **Chest & Skeletal X-Rays**: DICOM metadata, radiograph study linking, radiologist impression extraction.
-7. **Sonography / Ultrasound**: USG scans, biometric measurement extraction, structured impression logs.
+6. **Medical Imaging Intelligence — Chest X-Ray Analysis & MLOps Governance (Phase 7.3)**: Assistive chest X-ray ingestion, MIME & magic bytes image validation, DICOM header extraction with strict PHI minimization, deterministic Image Quality Gate (`QUALITY_ACCEPTED`, `QUALITY_WARNING`, `QUALITY_REJECTED`), versioned preprocessing (`xray-preprocess-v1`), pluggable vision model registry (`ChestXRayDeterministicTestModel` marked DEMO/TEST ONLY, `NativeVisionChestModel` marked EXPERIMENTAL HEURISTIC, deep learning PyTorch/ONNX adapters with checksum integrity), controlled 12-label taxonomy, temperature scaling calibration, uncertainty margins, Grad-CAM/attention explainability localization, evidence provenance (`EVID-XRAY-...`), MLOps dataset validation (`scripts/validate_xray_dataset.py`), reproducible training pipeline (`scripts/train_xray_model.py`), four-tier clinical evaluation suite (`scripts/evaluate_xray_model.py`), clinician review workflow (`PENDING`, `ACCEPTED`, `MODIFIED`, `REJECTED`) with immutable model records, longitudinal imaging timeline, and Doctor Copilot integration.
+7. **Sonography / Ultrasound**: USG scans, biometric measurement extraction, structured impression logs (Roadmap).
 
 
 
@@ -102,6 +102,21 @@ pytest tests/backend -v
 ---
 
 ## 📖 Detailed Technical Documentation
+- [Phase 7.5 Implementation Report](docs/PHASE_7_5_IMPLEMENTATION_REPORT.md)
+- [Phase 7.5 Pretrained Model Verification Report](docs/phase7.5-pretrained-model-verification.md)
+- [Medical Imaging Intelligence (Phase 7)](docs/imaging-intelligence.md)
+- [Phase 7.4 Implementation Report](docs/PHASE_7_4_IMPLEMENTATION_REPORT.md)
+- [Phase 7.4 Dataset & Model Selection Report](docs/phase7.4-dataset-and-model-selection.md)
+- [Phase 7.3 Implementation Report](docs/PHASE_7_3_IMPLEMENTATION_REPORT.md)
+- [Phase 7.3 Model & Dataset Readiness Report](docs/phase7.3-model-and-dataset-readiness.md)
+- [Chest X-Ray Model Architecture](docs/xray-model-architecture.md)
+- [Imaging Dataset Governance](docs/xray-dataset-governance.md)
+- [Imaging Security & DICOM Privacy](docs/imaging-security.md)
+- [Imaging Clinical Safety & CDSS Boundaries](docs/imaging-clinical-safety.md)
+- [Imaging API Specifications](docs/imaging-api.md)
+- [Doctor AI Copilot (Phase 6)](docs/doctor-copilot.md)
+- [Prescription Intelligence (Phase 5)](docs/prescription-intelligence.md)
+- [Longitudinal Patient Intelligence (Phase 4)](docs/longitudinal-intelligence.md)
 - [OCR & Medical Document Extraction (Phase 2)](docs/ocr-extraction.md)
 - [Medical Document Ingestion (Phase 1)](docs/medical-document-ingestion.md)
 - [System Architecture](docs/architecture.md)

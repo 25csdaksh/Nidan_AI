@@ -57,8 +57,7 @@ api_v1_router.include_router(
 )
 api_v1_router.include_router(
     imaging_router.router,
-    prefix="/imaging",
-    tags=["Imaging Studies (X-Ray & USG)"],
+    tags=["Medical Imaging Intelligence & Chest X-Ray (Phase 7)"],
 )
 api_v1_router.include_router(ai_router.router, prefix="/ai", tags=["AI Clinical Pipeline (Phase 0 Scaffold)"])
 api_v1_router.include_router(audit_router.router, prefix="/audit", tags=["HIPAA Audit Trail"])

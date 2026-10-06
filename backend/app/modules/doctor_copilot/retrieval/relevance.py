@@ -72,11 +72,17 @@ def classify_query(query: str) -> QueryType:
     if any(k in q for k in ["evidence", "provenance", "source", "why did nidan", "where is this from"]):
         return QueryType.EVIDENCE_QUERY
 
-    # 12. Documents
+    # 12. Imaging Studies & Findings (Phase 7)
+    if any(k in q for k in ["compare x-ray", "compare imaging", "contrast x-ray", "imaging comparison", "difference between x-ray"]):
+        return QueryType.IMAGING_COMPARISON
+    if any(k in q for k in ["x-ray", "xray", "chest x-ray", "chest radiograph", "radiograph", "radiology", "imaging", "cardiomegaly", "effusion", "atelectasis", "consolidation", "pneumothorax"]):
+        return QueryType.IMAGING_QUERY
+
+    # 13. Documents
     if any(k in q for k in ["document", "uploaded", "file", "report pdf", "scanned"]):
         return QueryType.DOCUMENT_QUERY
 
-    # 13. Timeline
+    # 14. Timeline
     if any(k in q for k in ["timeline", "chronology", "visit history", "encounters"]):
         return QueryType.TIMELINE_QUERY
 
@@ -85,7 +91,7 @@ def classify_query(query: str) -> QueryType:
 
 def extract_query_entities(query: str) -> Set[str]:
     """
-    Extracts clinical entity keywords (analyte names, drug names) mentioned in the query.
+    Extracts clinical entity keywords (analyte names, drug names, imaging finding terms) mentioned in the query.
     """
     known_entities = {
         "hemoglobin", "hb", "hgb", "creatinine", "glucose", "hba1c", "potassium",
@@ -93,7 +99,9 @@ def extract_query_entities(query: str) -> Set[str]:
         "bilirubin", "cholesterol", "triglycerides", "tsh", "vitamin d", "vitamin b12",
         "ferritin", "iron", "urea", "bun", "egfr", "metformin", "lisinopril", "atorvastatin",
         "aspirin", "warfarin", "amoxicillin", "spironolactone", "omeprazole", "paracetamol",
-        "azithromycin", "ciprofloxacin"
+        "azithromycin", "ciprofloxacin", "x-ray", "xray", "chest x-ray", "cardiomegaly",
+        "pleural effusion", "effusion", "atelectasis", "consolidation", "edema",
+        "pneumothorax", "infiltration", "nodule", "fibrosis", "pleural thickening",
     }
     q = query.lower()
     found: Set[str] = set()

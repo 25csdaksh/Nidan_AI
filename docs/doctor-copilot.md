@@ -12,13 +12,14 @@ The **NIDAN AI Doctor Copilot** provides evidence-grounded decision support assi
 - **Phase 3**: Clinical Anomaly Detection & Priority Reference Ranges
 - **Phase 4**: Longitudinal Trajectories & Multi-Visit Abnormality Dynamics
 - **Phase 5**: Prescription Extraction & Multi-Engine Medication Safety
+- **Phase 7**: Medical Imaging Intelligence & Chest X-Ray Analysis Foundation
 
 ### Strict Safety Boundaries (CDSS Level 1 & Level 2)
 The Doctor Copilot is **never an autonomous medical decision-maker**. The system strictly enforces:
 - **Zero Autonomous Diagnoses**: Does not state "Patient has disease X". Instead surfaces: *"Observation X was documented; clinical correlation is recommended."*
 - **Zero Prescribing**: Does not generate prescriptions, recommend starting/stopping drugs, or propose dosage titrations.
 - **Zero Hallucinations**: Rejects any clinical numeric values or diagnostic claims not present in the verified patient record.
-- **Strict Evidence Provenance**: Every factual claim is bound to deterministic evidence IDs (`EVID-LAB-...`, `EVID-MED-...`, `EVID-SAFETY-...`, `EVID-TREND-...`) for one-click clinician drilldown.
+- **Strict Evidence Provenance**: Every factual claim is bound to deterministic evidence IDs (`EVID-LAB-...`, `EVID-MED-...`, `EVID-SAFETY-...`, `EVID-TREND-...`, `EVID-XRAY-...`) for one-click clinician drilldown.
 - **Prompt Injection Defense**: Medical reports and OCR blocks are treated strictly as untrusted text data, ignoring any embedded instructions or jailbreak attempts.
 
 ---

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import {
   Activity,
   AlertCircle,
@@ -250,11 +251,14 @@ export default function PatientsPage() {
                     <span className="text-xs font-medium text-slate-200">Prescriptions</span>
                     <p className="text-[10px] text-slate-500">Active Rx</p>
                   </div>
-                  <div className="p-3 bg-slate-950/40 border border-slate-800 rounded-xl">
-                    <Radio className="w-4 h-4 text-indigo-400 mx-auto mb-1" />
-                    <span className="text-xs font-medium text-slate-200">X-Ray Studies</span>
-                    <p className="text-[10px] text-slate-500">Radiographs</p>
-                  </div>
+                  <Link
+                    href={`/patients/${selectedPatient.id}/imaging`}
+                    className="p-3 bg-slate-950/40 border border-slate-800 hover:border-indigo-500/80 rounded-xl transition block group"
+                  >
+                    <Radio className="w-4 h-4 text-indigo-400 mx-auto mb-1 group-hover:scale-110 transition-transform" />
+                    <span className="text-xs font-medium text-slate-200 group-hover:text-indigo-300">X-Ray Intelligence</span>
+                    <p className="text-[10px] text-slate-500">Chest Radiographs →</p>
+                  </Link>
                   <div className="p-3 bg-slate-950/40 border border-slate-800 rounded-xl">
                     <HeartPulse className="w-4 h-4 text-rose-400 mx-auto mb-1" />
                     <span className="text-xs font-medium text-slate-200">Sonography</span>
