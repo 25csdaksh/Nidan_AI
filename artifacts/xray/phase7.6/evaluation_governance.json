@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0.0",
+  "document_id": "ARTIFACT-NIDAN-EVAL-7601",
+  "timestamp": "2026-10-08T00:40:00Z",
+  "phase": "7.6",
+  "model_specification": {
+    "model_id": "XRAY_PYTORCH_DENSENET121_V1",
+    "model_family": "TorchXRayVision DenseNet-121",
+    "checkpoint_identifier": "densenet121-res224-all",
+    "checkpoint_filename": "densenet121-res224-all.pt",
+    "sha256": "56524913dd16a906422e8d8b66a7a5c46be1d82eb7ac012d8103776f1aa68899",
+    "framework": "PyTorch (torch==2.14.1+cpu, torchvision==0.29.1+cpu, torchxrayvision==1.5.5)",
+    "weights_status": "VERIFIED_LOADED",
+    "architecture": "DenseNet-121 (6,966,034 parameters, growth_rate=32)",
+    "raw_output_classes": 18,
+    "nidan_target_taxonomy": 12,
+    "preprocessing_pipeline": "xray-preprocess-v1-xrv224",
+    "intensity_scaling": "[-1024.0, 1024.0] via xrv.datasets.normalize",
+    "target_resolution": [224, 224],
+    "threshold_policy": "DEFAULT_0.5_UNSEEN (No threshold tuning permitted on held-out split)",
+    "calibration_status": "UNCALIBRATED_RAW_SIGMOID_SCORES"
+  },
+  "dataset_availability_audit": {
+    "held_out_dataset_mounted": false,
+    "dataset_source": null,
+    "dataset_license": null,
+    "image_count": 0,
+    "patient_count": 0,
+    "pretraining_overlap_risk": "HIGH_FOR_NIH14_CHEXPERT_MIMIC (Composite pretraining cohort of densenet121-res224-all)",
+    "blocker_description": "No external independent clinical radiograph test split (e.g., VinDr-CXR, BRAX, or private authenticated PACS split) is mounted in the repository environment."
+  },
+  "patient_level_leakage_audit": {
+    "status": "NOT_APPLICABLE_NO_DATASET_MOUNTED",
+    "tooling": "scripts/validate_xray_dataset.py (Phase 7.6 hardened with SHA-256 duplicate image detection and pretraining overlap auditing)"
+  },
+  "label_semantics_compatibility": {
+    "CARDIOMEGALY": {"status": "DIRECTLY_COMPATIBLE", "interpretation": "Enlarged cardiac silhouette (CTR > 0.5)"},
+    "PLEURAL_EFFUSION": {"status": "DIRECTLY_COMPATIBLE", "interpretation": "Pleural space fluid attenuation, blunted costophrenic angles"},
+    "ATELECTASIS": {"status": "DIRECTLY_COMPATIBLE", "interpretation": "Subsegmental or lobar volume loss / collapse"},
+    "CONSOLIDATION": {"status": "DIRECTLY_COMPATIBLE", "interpretation": "Alveolar airspace opacification with air bronchograms"},
+    "EDEMA": {"status": "DIRECTLY_COMPATIBLE", "interpretation": "Diffuse pulmonary vascular congestion, Kerley B lines"},
+    "PNEUMOTHORAX": {"status": "DIRECTLY_COMPATIBLE", "interpretation": "Visceral pleural line, absent peripheral lung markings"},
+    "INFILTRATION": {"status": "APPROXIMATE_SEMANTIC_DRIFT", "interpretation": "Ill-defined parenchymal opacity (historically non-standard per Fleischner)"},
+    "PNEUMONIA": {"status": "APPROXIMATE_CLINICAL_CORRELATION", "interpretation": "Infective alveolar infiltrate (requires clinical symptom correlation)"},
+    "NODULE": {"status": "DIRECTLY_COMPATIBLE", "interpretation": "Circumscribed round parenchymal lesion <= 3cm"},
+    "MASS": {"status": "DIRECTLY_COMPATIBLE", "interpretation": "Circumscribed focal opacity > 3cm"},
+    "FIBROSIS": {"status": "DIRECTLY_COMPATIBLE", "interpretation": "Reticular interstitial thickening, architectural distortion"},
+    "PLEURAL_THICKENING": {"status": "DIRECTLY_COMPATIBLE", "interpretation": "Apical capping or non-dependent pleural thickening"},
+    "UNSUPPORTED_CLASSES": ["Emphysema", "Hernia", "Lung Lesion", "Fracture", "Lung Opacity", "Enlarged Cardiomediastinum"]
+  },
+  "four_tier_governance_truth_matrix": {
+    "tier_1_software_correctness": {
+      "status": "VERIFIED",
+      "evidence": "Pytest suite passed 97/97 tests; Tier 1 calculation harness verified AUROC, AUPRC, Sensitivity, Specificity, F1, ECE, Brier score, and Bootstrap 95% CIs."
+    },
+    "tier_2_held_out_benchmark": {
+      "status": "NOT_EVALUATED",
+      "evidence": "No external independent clinical radiograph test split mounted. Strict non-fabrication rule enforced."
+    },
+    "tier_3_external_generalization": {
+      "status": "NOT_PERFORMED",
+      "evidence": "Requires multi-institutional hospital PACS cohort."
+    },
+    "tier_4_clinical_validation": {
+      "status": "NOT_CLINICALLY_VALIDATED",
+      "evidence": "Assistive CDSS software only. Uncalibrated probabilistic scores; mandatory clinician verification required."
+    }
+  },
+  "actionable_next_steps": [
+    "Mount an ethically approved, de-identified independent external evaluation split (e.g. VinDr-CXR test partition, CheXpert held-out 500-study radiologist consensus split, or licensed PACS cohort).",
+    "Execute `python scripts/validate_xray_dataset.py --manifest-csv <path> --image-root <dir>` to verify zero patient-level leakage and SHA-256 duplicate isolation.",
+    "Execute `python scripts/evaluate_xray_model.py --model-id XRAY_PYTORCH_DENSENET121_V1 --dataset-csv <path> --image-root <dir> --output-json artifacts/xray/phase7.6/held_out_results.json` to compute genuine test set metrics."
+  ]
+}

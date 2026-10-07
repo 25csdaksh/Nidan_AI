@@ -102,6 +102,8 @@ pytest tests/backend -v
 ---
 
 ## 📖 Detailed Technical Documentation
+- [Phase 7.6 Implementation Report](docs/PHASE_7_6_IMPLEMENTATION_REPORT.md)
+- [Phase 7.6 Held-Out Dataset Evaluation & Audit](docs/phase7.6-heldout-dataset-evaluation.md)
 - [Phase 7.5 Implementation Report](docs/PHASE_7_5_IMPLEMENTATION_REPORT.md)
 - [Phase 7.5 Pretrained Model Verification Report](docs/phase7.5-pretrained-model-verification.md)
 - [Medical Imaging Intelligence (Phase 7)](docs/imaging-intelligence.md)
