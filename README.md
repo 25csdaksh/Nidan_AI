@@ -102,6 +102,8 @@ pytest tests/backend -v
 ---
 
 ## 📖 Detailed Technical Documentation
+- [Phase 7.7 Implementation Report](docs/PHASE_7_7_IMPLEMENTATION_REPORT.md)
+- [Phase 7.7 External Generalization & Audit](docs/phase7.7-external-generalization-audit.md)
 - [Phase 7.6 Implementation Report](docs/PHASE_7_6_IMPLEMENTATION_REPORT.md)
 - [Phase 7.6 Held-Out Dataset Evaluation & Audit](docs/phase7.6-heldout-dataset-evaluation.md)
 - [Phase 7.5 Implementation Report](docs/PHASE_7_5_IMPLEMENTATION_REPORT.md)

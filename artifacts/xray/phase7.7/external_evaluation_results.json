@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0.0",
+  "document_id": "ARTIFACT-NIDAN-EXT-7701",
+  "phase": "7.7",
+  "timestamp": "2026-10-08T01:30:00Z",
+  "model_specification": {
+    "model_id": "XRAY_PYTORCH_DENSENET121_V1",
+    "model_family": "TorchXRayVision DenseNet-121",
+    "checkpoint_identifier": "densenet121-res224-all",
+    "checkpoint_filename": "densenet121-res224-all.pt",
+    "sha256": "56524913dd16a906422e8d8b66a7a5c46be1d82eb7ac012d8103776f1aa68899",
+    "framework": "PyTorch (torch==2.14.1+cpu, torchvision==0.29.1+cpu, torchxrayvision==1.5.5)",
+    "weights_status": "VERIFIED_LOADED_FROZEN",
+    "architecture": "DenseNet-121 (6,966,034 parameters, growth_rate=32)",
+    "raw_output_classes": 18,
+    "nidan_target_taxonomy": 12,
+    "preprocessing_pipeline": "xray-preprocess-v1-xrv224",
+    "target_resolution": [224, 224],
+    "calibration_status": "UNCALIBRATED_RAW_SCORES"
+  },
+  "candidate_dataset_audit": [
+    {
+      "dataset_name": "VinDr-CXR",
+      "source_institution": "Hanoi Medical University Hospital & Hospital 108 (Vietnam)",
+      "version": "1.0.0",
+      "license": "PhysioNet Credentialed Health Data License",
+      "independence_status": "INDEPENDENT",
+      "pretraining_overlap": false,
+      "eligible_images": 18000,
+      "test_partition_size": 3000,
+      "readers": "17 certified radiologists consensus",
+      "acquisition_blocker": "Requires credentialed PhysioNet Data Use Agreement (DUA) and CITI research ethics certification."
+    },
+    {
+      "dataset_name": "BRAX",
+      "source_institution": "Hospital Israelita Albert Einstein (Brazil)",
+      "version": "1.1.0",
+      "license": "PhysioNet Restricted Health Data License",
+      "independence_status": "INDEPENDENT",
+      "pretraining_overlap": false,
+      "eligible_images": 40967,
+      "test_partition_size": "Variable",
+      "readers": "RadLex-derived structured NLP labels",
+      "acquisition_blocker": "Requires credentialed PhysioNet DUA access."
+    },
+    {
+      "dataset_name": "NIH ChestX-ray14",
+      "source_institution": "NIH Clinical Center (USA)",
+      "independence_status": "PRETRAINING_OVERLAP",
+      "pretraining_overlap": true,
+      "usability_note": "Unusable as independent external benchmark (included in TorchXRayVision pretraining cohort)."
+    },
+    {
+      "dataset_name": "CheXpert",
+      "source_institution": "Stanford Health Care (USA)",
+      "independence_status": "PRETRAINING_OVERLAP",
+      "pretraining_overlap": true,
+      "usability_note": "Unusable as independent external benchmark (included in TorchXRayVision pretraining cohort)."
+    },
+    {
+      "dataset_name": "MIMIC-CXR",
+      "source_institution": "Beth Israel Deaconess Medical Center (USA)",
+      "independence_status": "PRETRAINING_OVERLAP",
+      "pretraining_overlap": true,
+      "usability_note": "Unusable as independent external benchmark (included in TorchXRayVision pretraining cohort)."
+    },
+    {
+      "dataset_name": "PadChest",
+      "source_institution": "Hospital San Juan de Alicante (Spain)",
+      "independence_status": "PRETRAINING_OVERLAP",
+      "pretraining_overlap": true,
+      "usability_note": "Unusable as independent external benchmark (included in TorchXRayVision pretraining cohort)."
+    }
+  ],
+  "external_evaluation_status": "EXTERNAL_EVALUATION_NOT_PERFORMED",
+  "reason_for_stop_condition": "No independent external dataset archive (VinDr-CXR / BRAX) is currently mounted with a signed DUA in the workspace. Strict non-fabrication rule enforced.",
+  "generalization_level": {
+    "assigned_level": "LEVEL_1",
+    "classification": "INTERNAL_SOFTWARE_METRIC_VERIFICATION",
+    "target_level": "LEVEL_3_INDEPENDENT_EXTERNAL_DATASET",
+    "evidence": "Tier 1 calculation engine is verified (97/97 tests pass). Baseline external generalization requires mounted VinDr-CXR/BRAX dataset."
+  },
+  "governance_matrix": {
+    "software_metric_correctness": "VERIFIED",
+    "held_out_benchmark": "NOT_EVALUATED",
+    "independent_external_evaluation": "NOT_PERFORMED",
+    "multi_site_generalization": "NOT_PERFORMED",
+    "radiologist_concordance": "NOT_PERFORMED",
+    "clinical_validation": "NOT_CLINICALLY_VALIDATED"
+  },
+  "mandatory_safety_statement": "NIDAN AI is an assistive CDSS tool. Model outputs represent non-calibrated feature scores and do not constitute clinical diagnoses or treatment decisions. Mandatory independent clinician review is required."
+}
