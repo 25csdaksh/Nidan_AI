@@ -143,7 +143,7 @@ class PrescriptionMedication(Base, TimestampMixin):
     safety_findings = relationship("MedicationSafetyFinding", back_populates="medication", cascade="all, delete-orphan")
 
 
-class MedicationSafetyFinding(BaseModel if False else Base, TimestampMixin):
+class MedicationSafetyFinding(Base, TimestampMixin):
     """Represents an auditable medication safety alert (DDI, allergy, lab context, duplicate)."""
     __tablename__ = "medication_safety_findings"
 

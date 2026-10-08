@@ -40,7 +40,6 @@ async def process_task(task_data: dict):
 
 
 async def run_worker():
-    global running
     logger.info("Starting %s background worker process...", settings.PROJECT_NAME)
     broker = get_task_broker()
 
