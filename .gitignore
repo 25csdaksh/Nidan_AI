@@ -59,6 +59,7 @@ pgdata/
 
 # Data & Models
 data/
+external_data/
 *.dcm
 *.dicom
 *.pt

@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0.0",
+  "document_id": "ARTIFACT-NIDAN-VAL-7901",
+  "phase": "7.9",
+  "timestamp": "2026-10-09T00:36:00Z",
+  "dataset_metadata": {
+    "dataset_name": "VinDr-CXR",
+    "dataset_version": "1.0.0",
+    "source_institution": "Hanoi Medical University Hospital & Hospital 108 (Vietnam)",
+    "publication_reference": "Nguyen et al., Scientific Data (2022)",
+    "hosting_platform": "PhysioNet (physionet.org/content/vindr-cxr/1.0.0/)",
+    "license_type": "PhysioNet Credentialed Health Data License 1.5.0",
+    "total_cohort_images": 18000,
+    "test_partition_size": 3000,
+    "reader_consensus": "17 certified Vietnamese radiologists"
+  },
+  "access_and_governance_audit": {
+    "access_status": "BLOCKED_ON_EXTERNAL_DATASET_ACCESS",
+    "citi_certification_required": true,
+    "physionet_credentialing_required": true,
+    "dua_signature_required": true,
+    "unauthenticated_download_prohibited": true,
+    "phi_safety_policy": "STRICT_ANONYMIZED_MANIFESTS_ONLY",
+    "cross_split_leakage_policy": "PATIENT_LEVEL_LEAKAGE = ZERO"
+  },
+  "storage_and_hardware_assessment": {
+    "host_os": "Windows (HP Laptop 15-hr1xxx)",
+    "total_physical_ram_gb": 15.43,
+    "available_disk_space_gb": {
+      "C_drive": 90.69,
+      "D_drive": 85.13,
+      "E_drive_workspace": 40.49
+    },
+    "storage_capacity_verdict": {
+      "full_dicom_18k": "INSUFFICIENT_ON_WORKSPACE_DRIVE (~500 GB required)",
+      "test_partition_lossless_png_3k": "SUFFICIENT (~35-45 GB required on secondary or external mount)"
+    },
+    "recommended_mount_path": "external_data/vindr_cxr/"
+  },
+  "independence_audit": {
+    "pretraining_cohorts_checked": [
+      "NIH ChestX-ray14",
+      "CheXpert",
+      "MIMIC-CXR",
+      "PadChest",
+      "OpenI",
+      "Kaggle Pneumonia"
+    ],
+    "vindr_cxr_pretraining_overlap": false,
+    "independence_classification": "INDEPENDENT",
+    "validation_suitability": "PREFERRED_PRIMARY_EXTERNAL_BENCHMARK"
+  },
+  "validation_verdict": {
+    "status": "VALIDATION_SUITE_READY_ACCESS_BLOCKED",
+    "reason": "Physical dataset mount blocked awaiting user credentialed PhysioNet DUA execution. No synthetic images or fake evaluation metrics generated.",
+    "mandatory_action": "Complete CITI certification, sign PhysioNet VinDr-CXR DUA, and mount test partition to external_data/vindr_cxr/."
+  }
+}

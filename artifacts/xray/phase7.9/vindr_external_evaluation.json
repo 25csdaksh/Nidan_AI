@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0.0",
+  "document_id": "ARTIFACT-NIDAN-EVAL-7901",
+  "phase": "7.9",
+  "timestamp": "2026-10-09T00:36:00Z",
+  "model_specification": {
+    "model_id": "XRAY_PYTORCH_DENSENET121_V1",
+    "model_version": "1.0.0",
+    "model_family": "TorchXRayVision DenseNet-121",
+    "checkpoint_identifier": "densenet121-res224-all",
+    "checkpoint_filename": "densenet121-res224-all.pt",
+    "sha256": "56524913dd16a906422e8d8b66a7a5c46be1d82eb7ac012d8103776f1aa68899",
+    "sha256_verified": true,
+    "framework": "PyTorch (torch==2.14.1+cpu, torchvision==0.29.1+cpu, torchxrayvision==1.5.5)",
+    "architecture": "DenseNet-121 (6,966,034 parameters, growth_rate=32)",
+    "weights_status": "VERIFIED_LOADED_FROZEN",
+    "preprocessing_version": "xray-preprocess-v1-xrv224",
+    "target_resolution": [224, 224],
+    "channels": 1,
+    "color_space": "GRAYSCALE_L",
+    "pixel_normalization_range": [-1024.0, 1024.0],
+    "calibration_status": "UNCALIBRATED_RAW_SCORES",
+    "threshold_policy": {
+      "policy_type": "PREDEFINED_OPERATING_THRESHOLD",
+      "default_threshold": 0.5,
+      "rule": "Primary evaluation relies on threshold-independent metrics (AUROC, AUPRC). Threshold optimization on test sets is strictly prohibited."
+    }
+  },
+  "dataset_specification": {
+    "dataset_name": "VinDr-CXR",
+    "dataset_version": "1.0.0",
+    "source_institution": "Hanoi Medical University Hospital & Hospital 108 (Vietnam)",
+    "license_status": "PhysioNet Credentialed Health Data License 1.5.0 (DUA Pending)",
+    "independence_status": "INDEPENDENT",
+    "pretraining_overlap": false,
+    "evaluated_patient_count": 0,
+    "evaluated_image_count": 0
+  },
+  "evaluation_execution": {
+    "status": "NOT_PERFORMED_BLOCKED_ON_DUA_ACCESS",
+    "reason_for_stop_condition": "VinDr-CXR requires PhysioNet researcher credentialing, CITI ethics training certification, and a signed Data Use Agreement (DUA). In accordance with non-fabrication bioethics rules, no synthetic evaluation was performed.",
+    "generalization_level": {
+      "assigned_level": "LEVEL_1",
+      "classification": "INTERNAL_SOFTWARE_METRIC_VERIFICATION",
+      "target_level": "LEVEL_3_INDEPENDENT_EXTERNAL_DATASET",
+      "evidence": "Metric calculation engine verified via automated regression harness (97/97 tests passing). Physical external inference blocked pending DUA acquisition."
+    }
+  },
+  "label_taxonomy_harmonization": {
+    "version": "NIDAN-VINDR-MAP-V2",
+    "mappings": {
+      "CARDIOMEGALY": {"target_label": "Cardiomegaly", "semantic_tier": "DIRECT"},
+      "PLEURAL_EFFUSION": {"target_label": "Pleural effusion", "semantic_tier": "DIRECT"},
+      "ATELECTASIS": {"target_label": "Atelectasis", "semantic_tier": "DIRECT"},
+      "CONSOLIDATION": {"target_label": "Consolidation", "semantic_tier": "DIRECT"},
+      "EDEMA": {"target_label": "Pulmonary edema", "semantic_tier": "DIRECT"},
+      "PNEUMOTHORAX": {"target_label": "Pneumothorax", "semantic_tier": "DIRECT"},
+      "NODULE_MASS": {"target_label": "Nodule/Mass", "semantic_tier": "COMBINED_EXTERNAL_LABEL", "notes": "VinDr-CXR provides a unified Nodule/Mass category. Evaluated as combined category to prevent unscientific splitting."},
+      "FIBROSIS": {"target_label": "Pulmonary fibrosis", "semantic_tier": "DIRECT"},
+      "PLEURAL_THICKENING": {"target_label": "Pleural thickening", "semantic_tier": "DIRECT"},
+      "INFILTRATION": {"target_label": "Infiltration", "semantic_tier": "APPROXIMATE"},
+      "PNEUMONIA": {"target_label": "Pneumonia", "semantic_tier": "CLINICALLY_AMBIGUOUS"}
+    }
+  },
+  "governance_matrix": {
+    "dataset_authorized": "NO (Awaiting user DUA)",
+    "dataset_mounted": "NO",
+    "dataset_integrity_verified": "NO (Awaiting mount)",
+    "patient_leakage": "ZERO (Enforced by pipeline)",
+    "pretraining_overlap": "NONE (Verified via provenance audit)",
+    "model_checkpoint_verified": "YES (SHA-256 confirmed)",
+    "real_external_inference": "NOT PERFORMED",
+    "auroc_auprc": "NOT EVALUATED",
+    "threshold_metrics": "NOT EVALUATED",
+    "calibration": "NOT EVALUATED",
+    "external_generalization": "NOT VERIFIED",
+    "multi_site_validation": "NOT PERFORMED",
+    "radiologist_concordance": "NOT PERFORMED",
+    "clinical_validation": "NOT VALIDATED"
+  },
+  "mandatory_safety_statement": "NIDAN AI is an assistive Clinical Decision Support System. Model predictions are uncalibrated probabilistic feature scores and do NOT constitute clinical diagnoses or treatment recommendations. Mandatory licensed physician or certified radiologist review is required."
+}
